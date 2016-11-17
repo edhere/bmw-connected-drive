@@ -2,8 +2,6 @@
 
 BMW Connected Drive JSON API
 
-Project inspired by work done
-
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -24,7 +22,7 @@ Or install it yourself:
 require 'bmw-connected-drive'
 
 client = BMWConnectedDrive::Client.new({
-  :auth_basic => "auth_basic"
+  :auth_basic => "auth_basic",
   :username => "username",
   :password => "password",
 })
