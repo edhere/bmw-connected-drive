@@ -5,18 +5,23 @@ module BMWConnectedDrive
 
     USER_AGENT = "MCVApp/1.5.2 (iPhone; iOS 9.1; Scale/2.00)"
 
-    attr_reader :username, :password
+    attr_reader :username, :password, :auth_basic, :expires_in, :access_token
 
-    def initialize(username=nil, password=nil, auth_basic=nil)
-      @username = username
-      @password = password
-      @auth_basic = auth_basic
+    def initialize(params={username:nil, password:nil, auth_basic:nil})
+      @username = params[:username]
+      @password = params[:password]
+      @auth_basic = params[:auth_basic]
+      puts @username
+      puts @password
+      puts @auth_basic
     end
 
     def access_token=(access_token)
       @access_token = access_token
       self.class.headers "User-Agent" => USER_AGENT
       self.class.headers "Authorization" => "Bearer #{access_token}"
+      #self.class.headers "User-Agent" => USER_AGENT
+      #self.class.headers "Authorization" => "Bearer Zig2rc5cw98vwBNJhLZ3AZ4Fx6L9Qecp"
     end
 
     def expires_in=(seconds)
@@ -39,7 +44,7 @@ module BMWConnectedDrive
 
     def login
       response = self.class.post(
-        "oauth/token",
+        "/oauth/token",
         body: {
           "grant_type" => "password",
           "username" => self.username,
@@ -60,8 +65,16 @@ module BMWConnectedDrive
       self.access_token = response["access_token"]
     end
 
+    def call(path)
+      self.class.headers "User-Agent" => USER_AGENT
+      self.class.headers "Authorization" => "Bearer Zig2rc5cw98vwBNJhLZ3AZ4Fx6L9Qecp"
+      self.class.get(path)
+    end
+
     def vehicles
-      self.class.get("/user/vehicles/")["vehicles"].map { |v| Vehicle.new(v) }
+      #self.class.headers "User-Agent" => USER_AGENT
+      #self.class.headers "Authorization" => "Bearer Zig2rc5cw98vwBNJhLZ3AZ4Fx6L9Qecp"
+      self.class.get("/v1/user/vehicles/")["vehicles"].map { |vehicle| Vehicle.new(self.class, vehicle) }
     end
   end
 end

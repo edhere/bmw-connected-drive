@@ -1,6 +1,8 @@
 ## BMW Connected Drive
 
-A gem for BMW Connected Drive API
+BMW Connected Drive JSON API
+
+Project inspired by work done
 
 ## Installation
 
@@ -22,7 +24,7 @@ Or install it yourself:
 require 'bmw-connected-drive'
 
 client = BMWConnectedDrive::Client.new({
-  :auth_basic => "auth_basic",
+  :auth_basic => "auth_basic"
   :username => "username",
   :password => "password",
 })
@@ -30,8 +32,10 @@ client = BMWConnectedDrive::Client.new({
 client.login
 
 vehicle = client.vehicles.first
-
+vehicle.status
 vehicle.last_trip
-
 vehicle.all_trips
+vehicle.destinations
+vehicle.charging_profile
+vehicle.range_map
 ```

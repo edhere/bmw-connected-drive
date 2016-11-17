@@ -15,7 +15,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency('httparty', '~> 0.14.0', '>= 0.14.0')
   s.description   = "A ruby BMW connected drive API implementation"
   s.date          = Time.now.utc.strftime("%Y-%m-%d")
-  s.name          = 'rsocial'
+  s.name          = 'bmw-connected-drive'
   s.version       = BMWConnectedDrive::VERSION
   s.summary       = "A ruby BMW connected drive API implementation"
   s.authors       = ["Ed Richards"]
