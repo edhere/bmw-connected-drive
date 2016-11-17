@@ -11,35 +11,16 @@ module BMWConnectedDrive
       @username = params[:username]
       @password = params[:password]
       @auth_basic = params[:auth_basic]
-      puts @username
-      puts @password
-      puts @auth_basic
     end
 
     def access_token=(access_token)
       @access_token = access_token
       self.class.headers "User-Agent" => USER_AGENT
       self.class.headers "Authorization" => "Bearer #{access_token}"
-      #self.class.headers "User-Agent" => USER_AGENT
-      #self.class.headers "Authorization" => "Bearer Zig2rc5cw98vwBNJhLZ3AZ4Fx6L9Qecp"
     end
 
     def expires_in=(seconds)
       @expires_in = seconds.to_f
-    end
-
-    def created_at=(timestamp)
-      @created_at = Time.at(timestamp.to_f).to_datetime
-    end
-
-    def expired_at
-      return nil unless defined?(@created_at)
-      (@created_at.to_time + @expires_in.to_f).to_datetime
-    end
-
-    def expired?
-      return true unless defined?(@created_at)
-      expired_at <= DateTime.now
     end
 
     def login
@@ -57,23 +38,15 @@ module BMWConnectedDrive
           "User-Agent" => USER_AGENT
         }
       )
-
-      puts response
-
       self.expires_in   = response["expires_in"]
-      #self.created_at   = response["created_at"]
       self.access_token = response["access_token"]
     end
 
     def call(path)
-      self.class.headers "User-Agent" => USER_AGENT
-      self.class.headers "Authorization" => "Bearer Zig2rc5cw98vwBNJhLZ3AZ4Fx6L9Qecp"
       self.class.get(path)
     end
 
     def vehicles
-      #self.class.headers "User-Agent" => USER_AGENT
-      #self.class.headers "Authorization" => "Bearer Zig2rc5cw98vwBNJhLZ3AZ4Fx6L9Qecp"
       self.class.get("/v1/user/vehicles/")["vehicles"].map { |vehicle| Vehicle.new(self.class, vehicle) }
     end
   end
